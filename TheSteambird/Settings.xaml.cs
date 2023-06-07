@@ -37,8 +37,16 @@ namespace TheSteambird
         public Settings()
         {
             this.InitializeComponent();
-            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            Init();
+            try
+            {
+                dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                Init();
+            }
+            catch (Exception ex)
+            {
+                infoBar.Message = "初始化失败:" + ex.Message;
+                infoBar.IsOpen = true;
+            }
         }
         private void Init()
         {
@@ -66,6 +74,7 @@ namespace TheSteambird
             }
 
             string enkaPath = System.AppDomain.CurrentDomain.BaseDirectory + "Genshin\\EnkaNetwork";
+            Api.EnsureDirectoryExists(enkaPath);
             DirectoryInfo enkaDir = new DirectoryInfo(enkaPath);
             if (enkaDir.GetFiles().Length > 1)
             {
@@ -220,5 +229,7 @@ namespace TheSteambird
             }
             EnkaNetworkText.Text = "Enka.Network数据库\t已加载";
         }
+
+
     }
 }

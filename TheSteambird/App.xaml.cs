@@ -50,7 +50,7 @@ namespace TheSteambird
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            appWindow.SetIcon("res/ico256.ico");
+            appWindow.SetIcon("res/ico32.ico");
             m_window.Activate(); 
         }
 

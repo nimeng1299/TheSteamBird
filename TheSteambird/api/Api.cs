@@ -202,6 +202,7 @@ namespace TheSteambird.api
                 connection.Open();
                 source.BackupDatabase(connection, "main", "main", -1, null, 0);
                 source.Close();
+                SQLiteConnection.ClearPool(source);
                 using (SQLiteCommand command = new SQLiteCommand($"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'", connection))
                 {
                     using (SQLiteDataReader reader = command.ExecuteReader())
@@ -225,6 +226,7 @@ namespace TheSteambird.api
                 cmd.ExecuteNonQuery();
             }
             sqliteConn.Close();
+            SQLiteConnection.ClearPool(sqliteConn);
         }
         //数据库中创建表,第三个参数为表列如 CustomerId INT PRIMARY KEY,FirstName NVARCHAR(50),
         public static void CreateSqlTable(string filePath, string tableName, string tablieType)
@@ -253,6 +255,7 @@ namespace TheSteambird.api
                 source.Open();
                 source.BackupDatabase(conn, "main", "main", -1, null, 0);
                 source.Close();
+                SQLiteConnection.ClearPool(source);
                 string sqlTableNames = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;";
                 SQLiteCommand cmd = new SQLiteCommand(sqlTableNames, conn);
                 using (SQLiteDataReader dr = cmd.ExecuteReader())

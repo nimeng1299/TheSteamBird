@@ -214,7 +214,6 @@ namespace TheSteambird.api
     {
         public static async Task<List<string>> GetAbyss(GenshinAccountData data)
         {
-            //需要改成异步
             Func<GenshinAccountData, int, Task<string>> GetMysAbyss = async (account, schedule_type) =>
             {
                 Dictionary<string, string> query = new() {

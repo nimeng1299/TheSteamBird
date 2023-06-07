@@ -91,13 +91,23 @@ namespace TheSteambird.Genshin
             if (account == null)
                 return;
             string uid = account.Uid;
+
+            if (!Api.IsExistsSqlTable(GlobalVar.GenshinAbyssSqlPath, uid))
+            {
+                Api.CreateSqlTable(GlobalVar.GenshinAbyssSqlPath, uid, GlobalVar.GenshinAbyssSqlAddRow);
+            }
             //读取所有列
             dates.Clear();
             List<int> dateData = new();
             string connectionString = $"Data Source={GlobalVar.GenshinAbyssSqlPath};Version=3;";
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            SQLiteConnection source = new SQLiteConnection(connectionString);
+            source.Open();
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=:memory:"))
             {
                 connection.Open();
+                source.BackupDatabase(connection, "main", "main", -1, null, 0);
+                source.Close();
+                SQLiteConnection.ClearPool(source);
                 string query = $"SELECT Id FROM '{uid}'";
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {

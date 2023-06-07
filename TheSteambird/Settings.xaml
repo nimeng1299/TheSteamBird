@@ -48,7 +48,7 @@
                 <ProgressRing x:Name="EnkaNetworkProgressRing" IsIndeterminate="False" Grid.Column="1" Value="0"/>
                 <HyperlinkButton x:Name="EnkaNetworkUpdate" Content="更新数据库" Click="EnkaNetworkUpdate_Click" Grid.Column="2"/>
             </Grid>
-            <Button Content="检测更新" Margin="0,5"/>
+            <HyperlinkButton x:Name="CheckUpdates" Content="检测更新" Margin="0,5" NavigateUri="https://github.com/nimeng1299/TheSteambird/releases"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

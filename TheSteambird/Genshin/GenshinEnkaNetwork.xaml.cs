@@ -50,14 +50,21 @@ namespace TheSteambird.Genshin
         public GenshinEnkaNetwork()
         {
             this.InitializeComponent();
-            GlobalProp.prop.OnNowPropChanged += Prop_OnNowPropChanged;
-            Api.CreateFile(GlobalVar.GenshinEnkaNetworkSqlPath);
-            Api.EnsureDirectoryExists(System.AppDomain.CurrentDomain.BaseDirectory + "res\\genshin\\EnkaNetwork");
-            if (!Api.IsExistsSqlTable(GlobalVar.GenshinEnkaNetworkSqlPath, "info"))
+            try
             {
-                Api.CreateSqlTable(GlobalVar.GenshinEnkaNetworkSqlPath, "info", GlobalVar.GenshinEnkaNetworkSqlInfoAddRow);
+                GlobalProp.prop.OnNowPropChanged += Prop_OnNowPropChanged;
+                Api.CreateFile(GlobalVar.GenshinEnkaNetworkSqlPath);
+                Api.EnsureDirectoryExists(System.AppDomain.CurrentDomain.BaseDirectory + "res\\genshin\\EnkaNetwork");
+                if (!Api.IsExistsSqlTable(GlobalVar.GenshinEnkaNetworkSqlPath, "info"))
+                {
+                    Api.CreateSqlTable(GlobalVar.GenshinEnkaNetworkSqlPath, "info", GlobalVar.GenshinEnkaNetworkSqlInfoAddRow);
+                }
+                UpdateCombo();
             }
-            UpdateCombo();
+            catch (Exception ex) { 
+                infoBar.Message = "初始化失败：" + ex.Message;
+                infoBar.IsOpen = true;
+            }
             
         }
 
@@ -163,44 +170,59 @@ namespace TheSteambird.Genshin
 
         private void UpdateCombo()
         {
-            genshinAccounts.Clear();
-            List<string> uids = Api.GetAllSqlTableNames(GlobalVar.GenshinEnkaNetworkSqlPath);
-            foreach (var uid in uids)
+            try
             {
-                if (uid == "info")
+                genshinAccounts.Clear();
+                List<string> uids = Api.GetAllSqlTableNames(GlobalVar.GenshinEnkaNetworkSqlPath);
+                foreach (var uid in uids)
                 {
-                    continue;
+                    if (uid == "info")
+                    {
+                        continue;
+                    }
+                    genshinAccounts.Add(new GenshinAccount(uid, uid));
                 }
-                genshinAccounts.Add(new GenshinAccount(uid, uid));
-            }
-            if (genshinAccounts.Count > 0)
+                if (genshinAccounts.Count > 0)
+                {
+                    accountCombo.SelectedIndex = 0;
+                }
+            }catch (Exception ex)
             {
-                accountCombo.SelectedIndex = 0;
+                infoBar.Message = "加载uid出错：" +  ex.Message;
+                infoBar.IsOpen = true;
             }
         }
 
         private void accountCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var account = (GenshinAccount)accountCombo.SelectedItem;
-            if (account == null)
-                return;
-            string uid = account.Uid;
-            datas = GenshinEnkaNetworkAPi.LoadSqlDataToList(uid);
-            icons.Clear();
-            foreach (var data in datas) {
-                int id = data.avatarID;
-                JObject obj = Api.FileToJson(GlobalVar.GenshinEnkaNetworkDataPath + "\\characters.json");
-                JObject character = (JObject)obj[id.ToString()];
-                string icon = (string)character["SideIconName"];
-                icons.Add(new GenshinEnkaNetworkIcon(GenshinEnkaNetworkAPi.GetIcon(icon), id));
-            }
-            if (icons.Count > 0)
+            try
             {
-                AvatarList.SelectedIndex = 0;
-                GenshinEnkaNetworkIcon icon = icons[0] as GenshinEnkaNetworkIcon;
-                UpdateEnkaData(icon.Id);
+                var account = (GenshinAccount)accountCombo.SelectedItem;
+                if (account == null)
+                    return;
+                string uid = account.Uid;
+                datas = GenshinEnkaNetworkAPi.LoadSqlDataToList(uid);
+                icons.Clear();
+                foreach (var data in datas)
+                {
+                    int id = data.avatarID;
+                    JObject obj = Api.FileToJson(GlobalVar.GenshinEnkaNetworkDataPath + "\\characters.json");
+                    JObject character = (JObject)obj[id.ToString()];
+                    string icon = (string)character["SideIconName"];
+                    icons.Add(new GenshinEnkaNetworkIcon(GenshinEnkaNetworkAPi.GetIcon(icon), id));
+                }
+                if (icons.Count > 0)
+                {
+                    AvatarList.SelectedIndex = 0;
+                    GenshinEnkaNetworkIcon icon = icons[0] as GenshinEnkaNetworkIcon;
+                    UpdateEnkaData(icon.Id);
+                }
             }
-
+            catch (Exception ex)
+            {
+                infoBar.Message = "读取数据出错：" + ex.Message;
+                infoBar.IsOpen = true;
+            }
         }
 
         private async void getData_Click(object sender, RoutedEventArgs e)

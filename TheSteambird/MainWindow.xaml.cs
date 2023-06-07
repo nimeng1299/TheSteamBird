@@ -36,7 +36,6 @@ namespace TheSteambird
         {
             this.InitializeComponent();
             GlobalVar.Hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            
             Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "\\data");
             //Api.CreateFile(GlobalVar.AccountSqlPath);
             if (!Api.IsExistsSqlTable(GlobalVar.AccountSqlPath, GlobalVar.GenshinAccountSqlTable))

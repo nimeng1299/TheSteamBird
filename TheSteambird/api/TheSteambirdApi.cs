@@ -24,10 +24,16 @@ namespace TheSteambird.api
         //读取所有账号
         public static List<GenshinAccountData> GetGenshinDataFromSql(string filePath) {
             var datas = new List<GenshinAccountData>();
-            SQLiteConnection m_dbConnection = new SQLiteConnection($"Data Source={filePath};Version=3;");
+            string connectionString = $"Data Source={filePath};Version=3;";
+            SQLiteConnection source = new SQLiteConnection(connectionString);
+            source.Open();
+            SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=:memory:");
+            m_dbConnection.Open();
+            source.BackupDatabase(m_dbConnection, "main", "main", -1, null, 0);
+            source.Close();
+            SQLiteConnection.ClearPool(source);
             try
             {
-                m_dbConnection.Open();
                 string sql = $"SELECT * FROM {GlobalVar.GenshinAccountSqlTable}";
                 SQLiteCommand cmd = new SQLiteCommand(sql, m_dbConnection);
                 SQLiteDataReader reader = cmd.ExecuteReader();
