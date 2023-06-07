@@ -1,0 +1,54 @@
+﻿<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="TheSteambird.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TheSteambird"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0, 3, 10, 0">
+            <InfoBar x:Name="infoBar" IsOpen="False" Severity="Warning" Title="warning" Message="text"/>
+            <TextBlock Text="游戏路径设置" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+            <Grid RowSpacing="3" ColumnSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="原神国服路径CN/OS" VerticalAlignment="Center"/>
+                <TextBox x:Name="genshinCNPathTextBox" Grid.Column="1"
+                     TextWrapping="Wrap" AcceptsReturn="True"
+                         PlaceholderText="位于启动器目录下的 /Genshin Impact Game/YuanShen.exe"
+                        SelectionHighlightColor="Green" TextChanged="genshinCNPathTextBox_TextChanged"/>
+                <HyperlinkButton x:Name="genshinCNPath" Grid.Column="2" Content="选择路径" Click="genshinCNPath_Click"/>
+                <TextBlock Text="原神国际服路径CN/OS" VerticalAlignment="Center" Grid.Row="1"/>
+                <TextBox x:Name="genshinOSPathTextBox" Grid.Row="1" Grid.Column="1"
+                     TextWrapping="Wrap" AcceptsReturn="True"
+                         PlaceholderText="位于启动器目录下的 /Genshin Impact Game/GenshinImpact.exe"
+                        SelectionHighlightColor="Green" TextChanged="genshinOSPathTextBox_TextChanged"/>
+                <HyperlinkButton x:Name="genshinOSPath" Grid.Row="1" Grid.Column="2" Content="选择路径" Click="genshinOSPath_Click"/>
+            </Grid>
+            <TextBlock Text="数据库设置" Style="{StaticResource BodyStrongTextBlockStyle}" Margin="0, 10, 10, 0"/>
+            <Grid ColumnSpacing="5" Margin="0, 10, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="EnkaNetworkText" Text="Enka.Network数据库" VerticalAlignment="Center"/>
+                <ProgressRing x:Name="EnkaNetworkProgressRing" IsIndeterminate="False" Grid.Column="1" Value="0"/>
+                <HyperlinkButton x:Name="EnkaNetworkUpdate" Content="更新数据库" Click="EnkaNetworkUpdate_Click" Grid.Column="2"/>
+            </Grid>
+            <Button Content="检测更新" Margin="0,5"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

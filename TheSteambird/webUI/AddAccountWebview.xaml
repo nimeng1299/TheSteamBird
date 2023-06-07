@@ -1,0 +1,29 @@
+﻿<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="TheSteambird.webUI.AddAccountWebview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TheSteambird.webUI"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="0,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="urlText" Text="" IsReadOnly="True" Grid.Column="0"/>
+            <Button x:Name="getCookie" Content="登录后点我" Click="getCookie_Click" Grid.Column="1"/>
+        </Grid>
+        <controls:WebView2 x:Name="AddAccountCookieWebview" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
+    </Grid>
+</Page>

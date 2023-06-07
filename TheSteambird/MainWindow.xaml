@@ -1,0 +1,86 @@
+﻿<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Window
+    x:Class="TheSteambird.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TheSteambird"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Border
+            Canvas.ZIndex="0"
+            IsHitTestVisible="False">
+            <Grid
+                Height="48"
+                Margin="48,0,0,0"
+                VerticalAlignment="Top"
+                Padding="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image
+                    x:Name="AppFontIcon"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="/res/ico256.png" />
+                <TextBlock
+                    Margin="12,0,0,0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind GetAppTitleFromSystem()}"/>
+            </Grid>
+        </Border>
+        <NavigationView
+            x:Name="NavigationViewControl"
+            IsTitleBarAutoPaddingEnabled="False"
+            AlwaysShowHeader="False"
+            Header="Default Header"
+            IsTabStop="False"
+            SelectionChanged="NavigationViewControl_SelectionChanged"
+            BackRequested="NavigationViewControl_BackRequested">
+            <NavigationView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,-10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="pageTitle"
+                            Background="Transparent"
+                            Height="44"
+                            VerticalAlignment="Top">
+                            <TextBlock x:Name="title" 
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                FontSize="24"
+                                VerticalAlignment="Center"
+                                Text="{Binding}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </NavigationView.HeaderTemplate>
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="主页" Tag="Overview"/>
+                <NavigationViewItem Icon="Home" Content="原神/genshin" SelectsOnInvoked="False">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Content="总览" Tag="Genshin.GenshinOverview"/>
+                        <NavigationViewItem Content="深境螺旋" Tag="Genshin.GenshinAbyss"/>
+                        <NavigationViewItem Content="祈愿记录" Tag="Genshin.GenshinGacha"/>
+                        <NavigationViewItem Content="角色数据" Tag="Genshin.GenshinEnkaNetwork"/>
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Icon="Contact" Content="Account" Tag="Account"/>
+            </NavigationView.FooterMenuItems>
+            <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated" Padding="55,10,0,0"/>
+        </NavigationView>
+    </Grid>
+</Window>

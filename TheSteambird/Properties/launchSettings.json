@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TheSteambird (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TheSteambird (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
