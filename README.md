@@ -8,16 +8,16 @@
 
 ### 数据总览
 
-![genshinOverview](img\genshinOverview.png)
+![genshinOverview](img/genshinOverview.png)
 
 ### 深境螺旋
 
-![genshinAbyss](img\genshinAbyss.png)
+![genshinAbyss](img/genshinAbyss.png)
 
 ### 抽卡记录
 
-![genshinGacha](img\genshinGacha.png)
+![genshinGacha](img/genshinGacha.png)
 
 ### 角色属性（[Enka.network](https://enka.network/)）
 
-![genshinEnka](img\genshinEnka.png)
+![genshinEnka](img/genshinEnka.png)
